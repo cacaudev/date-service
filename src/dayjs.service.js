@@ -24,6 +24,10 @@ class DayJSDateService extends DateServiceInterface {
     this.dateInstance = dayjs(date).add(hours, "hour");
   }
 
+  datesDifferenceByHours({ pastDate, futureDate }) {
+    return dayjs(futureDate).diff(pastDate, "hour");
+  }
+
   parseByTimezone(timezone) {}
   parseTimestampByTimezone(timestamp, timezone) {}
   parseTimestampByUTC() {

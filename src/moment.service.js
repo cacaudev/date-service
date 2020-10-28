@@ -20,6 +20,11 @@ class MomentDateService extends DateServiceInterface {
     this.dateInstance = moment(date).add(hours, "hours");
   }
 
+  datesDifferenceByHours({ pastDate, futureDate }) {
+    const firstDate = moment(pastDate);
+    return moment(futureDate).diff(firstDate, "hours");
+  }
+
   parseByTimezone(timezone) {}
   parseTimestampByTimezone(timestamp, timezone) {}
   parseTimestampByUTC(timestamp) {}

@@ -14,6 +14,17 @@ momentDate.addDaysToDate({ days: 4, date: currentMomentTimestamp });
 const momentDateWithAddedDays = momentDate.formatByCustomOrder("DD/MM/YYYY");
 console.log("momentDateWithAddedDays", momentDateWithAddedDays);
 
+const firstDate = momentDate.currentDateTime();
+console.log("firstDate", firstDate);
+momentDate.addDaysToDate({ days: 1, date: firstDate });
+const secondDate = momentDate.formatByDefaultOrder();
+console.log("secondDate", secondDate);
+const momentHourDiff = momentDate.datesDifferenceByHours({
+  pastDate: firstDate,
+  futureDate: secondDate,
+});
+console.log("momentHourDiff", momentHourDiff);
+
 let dayjsDate = new DayJSDateService();
 dayjsDate.instantiate();
 
@@ -26,3 +37,14 @@ console.log("currentDayTimestamp", currentDayTimestamp);
 dayjsDate.addDaysToDate({ days: 4, date: currentDayTimestamp });
 const dayDateWithAddedDays = dayjsDate.formatByCustomOrder("DD/MM/YYYY");
 console.log("dayDateWithAddedDays", dayDateWithAddedDays);
+
+const firstDateD = dayjsDate.currentDateTime();
+console.log("firstDate", firstDateD);
+dayjsDate.addDaysToDate({ days: 1, date: firstDateD });
+const secondDateD = dayjsDate.formatByDefaultOrder();
+console.log("secondDate", secondDate);
+const dayHourDiff = dayjsDate.datesDifferenceByHours({
+  pastDate: firstDateD,
+  futureDate: secondDateD,
+});
+console.log("dayHourDiff", dayHourDiff);

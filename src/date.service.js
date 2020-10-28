@@ -25,6 +25,8 @@ class DateServiceInterface {
   addDaysToDate({ days, date }) {}
   addHoursToDate({ hours, date }) {}
 
+  datesDifferenceByHours({ firstTimestamp, secondTimestamp }) {}
+
   parseByTimezone(timezone) {}
   parseTimestampByTimezone(timestamp, timezone) {}
   parseTimestampByUTC(timestamp) {}
