@@ -1,7 +1,7 @@
 import { DateServiceInterface } from "./date.service";
 import moment from "moment";
 
-class MomentAdapterDateService extends DateServiceInterface {
+class MomentDateService extends DateServiceInterface {
   constructor() {
     super();
   }
@@ -13,11 +13,11 @@ class MomentAdapterDateService extends DateServiceInterface {
     this.dateInstance = moment(dateString);
   }
 
-  addDays(numberOfDays) {
-    return this.dateInstance.add(numberOfDays, "days");
+  addDaysToDate({ days, date }) {
+    this.dateInstance = moment(date).add(days, "days");
   }
-  addHours(numberOfHours) {
-    return this.dateInstance.add(numberOfHours, "hours");
+  addHoursToDate({ hours, date }) {
+    this.dateInstance = moment(date).add(hours, "hours");
   }
 
   parseByTimezone(timezone) {}
@@ -29,4 +29,4 @@ class MomentAdapterDateService extends DateServiceInterface {
   getTimeFromTimestamp(timestamp) {}
 }
 
-export { MomentAdapterDateService };
+export { MomentDateService };

@@ -12,11 +12,18 @@ class DateServiceInterface {
     return this.dateInstance.format();
   }
   formatByCustomOrder(formatString) {
+    if (!formatString) {
+      throw new Error("Missing format string in formatByCustomOrder method");
+    }
     return this.dateInstance.format(formatString);
   }
+  currentDateTime() {
+    this.instantiate();
+    return this.formatByDefaultOrder();
+  }
 
-  addDays(numberOfDays) {}
-  addHours(numberOfHours) {}
+  addDaysToDate({ days, date }) {}
+  addHoursToDate({ hours, date }) {}
 
   parseByTimezone(timezone) {}
   parseTimestampByTimezone(timestamp, timezone) {}
