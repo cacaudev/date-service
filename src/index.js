@@ -25,6 +25,13 @@ const momentHourDiff = momentDate.datesDifferenceByHours({
 });
 console.log("momentHourDiff", momentHourDiff);
 
+const currentDate = momentDate.currentDateTime();
+const formatByTimezone = momentDate.parseTimestampByTimezone(
+  currentDate,
+  "America/Noronha",
+);
+console.log("formatByTimezone moment", formatByTimezone);
+
 let dayjsDate = new DayJSDateService();
 dayjsDate.instantiate();
 
