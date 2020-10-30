@@ -2,6 +2,9 @@ import { DateServiceInterface } from "./date.service";
 import moment from "moment";
 import * as momentTZ from "moment-timezone";
 
+const ISO86014_REGEX = /(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})[+-](\d{2})\:(\d{2})/;
+const UTC_REGEX = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/;
+
 class MomentDateService extends DateServiceInterface {
   constructor() {
     super();
@@ -27,30 +30,43 @@ class MomentDateService extends DateServiceInterface {
   }
 
   parseTimestampByUTC(timestamp) {
-    const rawUTCInstance = momentTZ.utc(timestamp);
-    this.dateInstance = rawUTCInstance;
-  }
-  parseByTimezone(timezone) {
-    this.dateInstance = this.dateInstance.tz(timezone);
-  }
-  parseTimestampByTimezone(timestamp, timezone) {
-    const rawUTCInstance = momentTZ.utc(timestamp);
-    const rawTimestamp = rawUTCInstance.format();
-    const date = rawTimestamp.substring(0, 10);
-    const dateSeparated = date.split("-");
-    const year = dateSeparated[0];
-    const month = dateSeparated[1] - 1;
-    const day = dateSeparated[2];
-    const dateArray = [year, month, day];
-    return momentTZ.tz(dateArray, timezone).format();
+    return momentTZ.utc(timestamp);
   }
 
-  getDateFromTimestamp(timestamp) {}
-  getHoursFromTimestamp(timestamp) {
-    const dateInstance = momentTZ(timestamp);
+  formatAndAddTimezoneToDate(timestamp, timezone) {
+    const rawUTCInstance = this.parseTimestampByUTC(timestamp);
+    const rawTimestamp = rawUTCInstance.format();
+    const dateArray = this.getDateFromTimestampWithTimezone(rawTimestamp);
+    return moment.tz(dateArray, timezone).format();
+  }
+
+  getDateFromTimestampWithTimezone(timestamp) {
+    const dateInstance = this.parseTimestampByUTC(timestamp);
+    return dateInstance.format("YYYY-MM-DD");
+  }
+  getHoursFromTimestampWithTimezone(timestamp) {
+    const dateInstance = this.parseTimestampByUTC(timestamp);
     return dateInstance.format("HH");
   }
-  getTimeFromTimestamp(timestamp) {}
+  getTimeFromTimestampWithTimezone(timestamp) {
+    const dateInstance = this.parseTimestampByUTC(timestamp);
+    return dateInstance.format("HH:mm:ss");
+  }
+
+  isTimestampUTC(timestamp) {
+    return UTC_REGEX.test(timestamp);
+  }
+
+  isTimestampISO_8601(timestamp) {
+    const dateCheck = moment(timestamp, moment.ISO_8601, true);
+    return dateCheck.isValid();
+  }
+
+  getStartOfWeekSinceDate(timestamp) {
+    const date = moment(timestamp);
+    const sevenDaysBefore = date.subtract(7, "days").format();
+    return sevenDaysBefore;
+  }
 }
 
 export { MomentDateService };

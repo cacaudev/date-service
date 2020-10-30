@@ -27,13 +27,16 @@ class DateServiceInterface {
 
   datesDifferenceByHours({ firstTimestamp, secondTimestamp }) {}
 
-  parseByTimezone(timezone) {}
-  parseTimestampByTimezone(timestamp, timezone) {}
   parseTimestampByUTC(timestamp) {}
+
+  formatAndAddTimezoneToDate(timestamp, timezone) {}
 
   getDateFromTimestamp(timestamp) {}
   getHoursFromTimestamp(timestamp) {}
   getTimeFromTimestamp(timestamp) {}
+
+  isTimestampUTC(timestamp) {}
+  isTimestampISO_8601(timestamp) {}
 }
 
 export { DateServiceInterface };
