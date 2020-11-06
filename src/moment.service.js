@@ -67,6 +67,10 @@ class MomentDateService extends DateServiceInterface {
     const sevenDaysBefore = date.subtract(7, "days").format();
     return sevenDaysBefore;
   }
+
+  isDateBefore({ pastTimestamp, futureTimestamp }) {
+    return moment(pastTimestamp).isBefore(futureTimestamp);
+  }
 }
 
 export { MomentDateService };

@@ -73,6 +73,12 @@ class DayJSDateService extends DateServiceInterface {
     const sevenDaysBefore = date.subtract(7, "day").format();
     return sevenDaysBefore;
   }
+
+  isDateBefore({ pastTimestamp, futureTimestamp }) {
+    const pastDateObject = dayjs(pastTimestamp);
+    const futureDateObject = dayjs(futureTimestamp);
+    return pastDateObject.isBefore(futureDateObject);
+  }
 }
 
 export { DayJSDateService };

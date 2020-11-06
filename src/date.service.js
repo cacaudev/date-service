@@ -37,6 +37,7 @@ class DateServiceInterface {
 
   isTimestampUTC(timestamp) {}
   isTimestampISO_8601(timestamp) {}
+  isDateBefore({ firstTimestamp, secondTimestamp }) {}
 }
 
 export { DateServiceInterface };
