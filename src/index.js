@@ -55,3 +55,10 @@ const dayHourDiff = dayjsDate.datesDifferenceByHours({
   futureDate: secondDateD,
 });
 console.log("dayHourDiff", dayHourDiff);
+
+const UTC_TIMESTAMP_EXAMPLE = "2020-04-02T16:55:00.000Z";
+const dateByTimestamp = dayjsDate.processAndFormatTimestampByTimezone({
+  timestamp: UTC_TIMESTAMP_EXAMPLE,
+  timezone: "America/New_York",
+});
+console.log("dateByTimestamp", dateByTimestamp);

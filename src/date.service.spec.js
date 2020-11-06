@@ -114,10 +114,10 @@ describe("Date Service", () => {
     const { sut, ISO8601_EXAMPLE, TIMEZONE_EXAMPLE } = makeSut();
     const isoDateWithoutTime = "2020-04-02T00:00:00-03:00";
 
-    const dateFormatted = sut.formatAndAddTimezoneToDate(
-      ISO8601_EXAMPLE,
-      TIMEZONE_EXAMPLE,
-    );
+    const dateFormatted = sut.getDateAndAddTimezone({
+      timestamp: ISO8601_EXAMPLE,
+      timezone: TIMEZONE_EXAMPLE,
+    });
     expect(dateFormatted).toBe(isoDateWithoutTime);
     done();
   });

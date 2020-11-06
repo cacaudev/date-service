@@ -1,4 +1,4 @@
-import { DateServiceInterface } from "./date.service";
+import { DateServiceInterface } from "./IDate.service";
 import moment from "moment";
 import * as momentTZ from "moment-timezone";
 
@@ -33,11 +33,21 @@ class MomentDateService extends DateServiceInterface {
     return momentTZ.utc(timestamp);
   }
 
-  formatAndAddTimezoneToDate(timestamp, timezone) {
+  getDateAndAddTimezone(timestamp, timezone) {
     const rawUTCInstance = this.parseTimestampByUTC(timestamp);
     const rawTimestamp = rawUTCInstance.format();
     const dateArray = this.getDateFromTimestampWithTimezone(rawTimestamp);
     return moment.tz(dateArray, timezone).format();
+  }
+
+  formatTimestampByTimezone({ timestamp, timezone }) {
+    const rawUTCInstance = this.parseTimestampByUTC(timestamp);
+    // There is a bug on moment with these timezones (one hour difference)
+    if (timezone == "America/Sao_Paulo" || timezone == "America/Bahia") {
+      return rawUTCInstance.tz(timezone).add(1, "hours").format();
+    } else {
+      return rawUTCInstance.tz(timezone).format();
+    }
   }
 
   getDateFromTimestampWithTimezone(timestamp) {
