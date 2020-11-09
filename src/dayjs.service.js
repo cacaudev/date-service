@@ -1,14 +1,15 @@
 import { DateServiceInterface } from "./IDate.service";
 import dayjs from "dayjs";
-import dayjsPluginUTC from "dayjs-plugin-utc";
-const timezonePlugin = require("dayjs/plugin/timezone");
 
 const ISO86014_REGEX = /(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})[+-](\d{2})\:(\d{2})/;
-const UTC_REGEX = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/;
 
 class DayJSDateService extends DateServiceInterface {
   constructor() {
     super();
+    this.timezoneDefault = "America/Sao_Paulo";
+    this.localeDefault = "pt";
+    this.countryDefault = "BR";
+    this.dateFormatDefault = "DD/MM/YYYY";
   }
 
   instantiate() {
@@ -32,36 +33,6 @@ class DayJSDateService extends DateServiceInterface {
     return dayjs(futureDate).diff(pastDate, "hour");
   }
 
-  processAndFormatTimestampByTimezone({ timestamp, timezone }) {
-    const rawUTCInstance = this.parseTimestampByUTC(timestamp);
-    const hourFromTimestamp = this.getHoursFromTimestamp(timestamp);
-
-    if (hourFromTimestamp !== "00") {
-      return this.formatTimestampByTimezone({ timestamp: rawUTCInstance, timezone });
-    } else {
-      return this.getDateAndAddTimezone({ timestamp: rawUTCInstance, timezone });
-    }
-  }
-
-  formatTimestampByTimezone({ timestamp, timezone }) {
-    dayjs.extend(timezonePlugin);
-    return dayjs(timestamp).add(1, "hour").tz(timezone).format();
-  }
-
-  getDateAndAddTimezone({ timestamp, timezone }) {
-    dayjs.extend(timezonePlugin);
-    const rawUTCInstance = this.parseTimestampByUTC(timestamp);
-    const rawTimestamp = rawUTCInstance.format();
-    const dateArray = this.getDateFromTimestamp(rawTimestamp);
-    return dayjs(dateArray).add(1, "day").tz(timezone).format();
-  }
-
-  parseTimestampByUTC(timestamp) {
-    dayjs.extend(dayjsPluginUTC);
-    this.instantiateWithCustomDate(timestamp);
-    return this.dateInstance.utc();
-  }
-
   getHoursFromTimestamp(timestamp) {
     return dayjs(timestamp).format("HH");
   }
@@ -70,24 +41,6 @@ class DayJSDateService extends DateServiceInterface {
   }
   getTimeFromTimestamp(timestamp) {
     return dayjs(timestamp).format("HH:mm:ss");
-  }
-
-  getHoursFromTimestampWithTimezone(timestamp) {
-    const dateInstance = this.parseTimestampByUTC(timestamp);
-    return dateInstance.format("HH");
-  }
-  getTimeFromTimestampWithTimezone(timestamp) {
-    const dateInstance = this.parseTimestampByUTC(timestamp);
-    return dateInstance.format("HH:mm:ss");
-  }
-  getDateFromTimestampWithTimezone(timestamp) {
-    const dateInstance = this.parseTimestampByUTC(timestamp);
-    return dateInstance.format("YYYY-MM-DD");
-  }
-
-  isTimestampUTC(timestamp) {
-    dayjs.extend(dayjsPluginUTC);
-    return dayjs(timestamp).isUTC();
   }
 
   isTimestampISO_8601(timestamp) {
@@ -104,6 +57,25 @@ class DayJSDateService extends DateServiceInterface {
     const pastDateObject = dayjs(pastTimestamp);
     const futureDateObject = dayjs(futureTimestamp);
     return pastDateObject.isBefore(futureDateObject);
+  }
+
+  formatTimestampByCountry({ timestamp, locale = this.localeDefault }) {
+    const formatFound = this.getDateFormatFromLocale(locale);
+    const formatValidated = this.validateAndSetDateFormat(formatFound);
+    return days(timestamp).format(formatValidated);
+  }
+
+  getDateFormatFromCountry(country = this.countryDefault) {
+    return countriesDateFormat[country];
+  }
+
+  validateAndSetDateFormat(formatString) {
+    const isFormatValid = (format) => format !== null && format !== undefined;
+    if (isFormatValid(formatString)) {
+      return formatString;
+    } else {
+      return this.dateFormatDefault;
+    }
   }
 }
 
