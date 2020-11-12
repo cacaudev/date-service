@@ -60,10 +60,12 @@ class DateFnsService extends DateServiceInterface {
     return format(dateParsed, "HH");
   }
   getDateFromTimestamp(timestamp) {
-    return parseISO(timestamp).format("YYYY-MM-DD");
+    const dateParsed = parseISO(timestamp);
+    return format(dateParsed, "yyyy-MM-dd");
   }
   getTimeFromTimestamp(timestamp) {
-    return parseISO(timestamp).format("HH:mm:ss");
+    const dateParsed = parseISO(timestamp);
+    return format(dateParsed, "HH:mm:ss");
   }
 }
 

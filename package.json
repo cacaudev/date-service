@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --colors --noStackTrace --runInBand --silent --detectOpenHandles --forceExit",
+    "test": "jest --colors --noStackTrace --runInBand --detectOpenHandles --forceExit",
     "start": "babel-node src/index.js"
   },
   "keywords": [],
@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "date-fns": "^2.16.1",
+    "date-fns-tz": "^1.0.12",
     "dayjs": "^1.9.4",
     "dayjs-plugin-utc": "^0.1.2",
     "moment": "^2.29.1",
