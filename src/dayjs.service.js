@@ -1,8 +1,6 @@
 import { DateServiceInterface } from "./IDate.service";
 import dayjs from "dayjs";
 
-const ISO86014_REGEX = /(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})[+-](\d{2})\:(\d{2})/;
-
 class DayJSDateService extends DateServiceInterface {
   constructor() {
     super();
@@ -41,10 +39,6 @@ class DayJSDateService extends DateServiceInterface {
   }
   getTimeFromTimestamp(timestamp) {
     return dayjs(timestamp).format("HH:mm:ss");
-  }
-
-  isTimestampISO_8601(timestamp) {
-    return ISO86014_REGEX.test(timestamp);
   }
 
   getStartOfWeekSinceDate(timestamp) {

@@ -14,7 +14,7 @@ class DayjsTimezoneDateService extends DayJSDateService {
 
   processAndFormatTimestampByTimezone({ timestamp, timezone }) {
     let rawUTCInstance;
-    if (isTimestampUTC(timestamp)) {
+    if (this.isTimestampUTC(timestamp)) {
       rawUTCInstance = timestamp;
     } else {
       rawUTCInstance = this.parseTimestampByUTC(timestamp);

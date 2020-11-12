@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "date-fns": "^2.16.1",
     "dayjs": "^1.9.4",
     "dayjs-plugin-utc": "^0.1.2",
     "moment": "^2.29.1",

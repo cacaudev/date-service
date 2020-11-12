@@ -1,3 +1,5 @@
+const ISO86014_REGEX = /(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})[+-](\d{2})\:(\d{2})/;
+
 class DateServiceInterface {
   constructor() {
     this.timezone = null;
@@ -37,7 +39,10 @@ class DateServiceInterface {
   addHoursToDate({ hours, date }) {}
 
   isTimestampUTC(timestamp) {}
-  isTimestampISO_8601(timestamp) {}
+
+  isTimestampISO_8601(timestamp) {
+    return ISO86014_REGEX.test(timestamp);
+  }
 
   parseTimestampByUTC(timestamp) {}
 
