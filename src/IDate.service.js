@@ -7,33 +7,14 @@ class DateServiceInterface {
     this.dateInstance = null;
   }
 
-  instantiate() {}
-  instantiateWithCustomDate(dateString) {}
+  formatByDefaultOrder() {}
+  formatByCustomOrder(formatString) {}
 
-  formatByDefaultOrder() {
-    return this.dateInstance.format();
-  }
-  formatByCustomOrder(formatString) {
-    if (!formatString) {
-      throw new Error("Missing format string in formatByCustomOrder method");
-    }
-    return this.dateInstance.format(formatString);
-  }
+  currentDateTime() {}
 
-  currentDateTime() {
-    this.instantiate();
-    return this.formatByDefaultOrder();
-  }
+  currentDateFormattedByCustom(order) {}
 
-  currentDateFormattedByCustom(order) {
-    this.instantiate();
-    return this.formatByCustomOrder(order);
-  }
-
-  instantiateAndFormatByCustom({ timestamp, format }) {
-    this.instantiateWithCustomDate(timestamp);
-    return this.formatByCustomOrder(format);
-  }
+  instantiateAndFormatByCustom({ timestamp, format }) {}
 
   addDaysToDate({ days, date }) {}
   addHoursToDate({ hours, date }) {}

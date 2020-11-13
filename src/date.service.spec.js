@@ -82,4 +82,11 @@ describe("Date Service", () => {
     expect(dateFormatted).toBe(sevenDaysBefore);
     done();
   });
+
+  it("Should check if timestamp is on ISO_8601 format", (done) => {
+    const { sut, ISO8601_EXAMPLE } = makeSut();
+    const dateISO8601 = sut.isTimestampISO_8601(ISO8601_EXAMPLE);
+    expect(dateISO8601).toBeTruthy();
+    done();
+  });
 });

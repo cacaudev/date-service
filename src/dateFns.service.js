@@ -67,6 +67,26 @@ class DateFnsService extends DateServiceInterface {
     const dateParsed = parseISO(timestamp);
     return format(dateParsed, "HH:mm:ss");
   }
+
+  formatTimestampByCountry({ timestamp, locale = this.localeDefault }) {
+    const formatFound = this.getDateFormatFromLocale(locale);
+    const formatValidated = this.validateAndSetDateFormat(formatFound);
+    const dateParsed = parseISO(timestamp);
+    return format(dateParsed, formatValidated);
+  }
+
+  getDateFormatFromCountry(country = this.countryDefault) {
+    return countriesDateFormat[country];
+  }
+
+  validateAndSetDateFormat(formatString) {
+    const isFormatValid = (format) => format !== null && format !== undefined;
+    if (isFormatValid(formatString)) {
+      return formatString;
+    } else {
+      return this.dateFormatDefault;
+    }
+  }
 }
 
 export { DateFnsService };

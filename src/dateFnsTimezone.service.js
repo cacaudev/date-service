@@ -1,8 +1,8 @@
 import { DateFnsService } from "./dateFns.service";
-import { parseISO, formatISO, startOfDay, toDate } from "date-fns";
-import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";
+import { parseISO, startOfDay } from "date-fns";
+import { format } from "date-fns-tz";
 
-const UTC_REGEX = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/;
+const ISO_8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ssXXX";
 
 class DateFnsTimezoneService extends DateFnsService {
   constructor() {
@@ -14,33 +14,26 @@ class DateFnsTimezoneService extends DateFnsService {
   }
 
   processAndFormatTimestampByTimezone({ timestamp, timezone }) {
-    let rawUTCInstance = zonedTimeToUtc(timestamp, timezone);
-    /*if (this.isTimestampUTC(timestamp)) {
-      rawUTCInstance = timestamp;
-    } else {
-      rawUTCInstance = this.parseTimestampByUTC(timestamp);
-    }*/
-    console.log("rawUTCInstance", rawUTCInstance);
     const hourFromTimestamp = this.getHoursFromTimestamp(timestamp);
-
     if (hourFromTimestamp !== "00") {
-      return this.formatTimestampByTimezone({ timestamp: rawUTCInstance, timezone });
+      return this.formatTimestampByTimezone({ timestamp, timezone });
     } else {
-      return this.getDateAndAddTimezone({ timestamp: rawUTCInstance, timezone });
+      return this.getDateAndAddTimezone({ timestamp, timezone });
     }
   }
 
   formatTimestampByTimezone({ timestamp, timezone }) {
     const date = parseISO(timestamp);
-    return format(date, "yyyy-MM-dd HH:mm:ssXXX", {
+    const dateFormatted = format(date, ISO_8601_FORMAT, {
       timeZone: timezone,
     });
+    return dateFormatted;
   }
 
   getDateAndAddTimezone({ timestamp, timezone }) {
     const date = parseISO(timestamp);
     const dateOnly = startOfDay(date);
-    return format(dateOnly, "yyyy-MM-dd HH:mm:ssXXX", {
+    return format(dateOnly, ISO_8601_FORMAT, {
       timeZone: timezone,
     });
   }
