@@ -12,6 +12,8 @@ const makeSut = () => {
   const FORMAT_YEAR_MONTH_DAY = "yyyy-mm-dd";
   const TIMEZONE_EXAMPLE = "America/Sao_Paulo";
 
+  const ISOUTCEXAMPLE = "2020-12-11T00:00:00.000Z";
+
   return {
     sutUTC,
     ISO86014_REGEX,
@@ -22,6 +24,7 @@ const makeSut = () => {
     FORMAT_DAY_MONTH_YEAR_BR,
     FORMAT_YEAR_MONTH_DAY,
     TIMEZONE_EXAMPLE,
+    ISOUTCEXAMPLE,
   };
 };
 

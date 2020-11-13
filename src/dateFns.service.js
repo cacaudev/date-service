@@ -7,6 +7,7 @@ import {
   addDays,
   subDays,
   differenceInHours,
+  isValid,
 } from "date-fns";
 
 class DateFnsService extends DateServiceInterface {
@@ -15,11 +16,11 @@ class DateFnsService extends DateServiceInterface {
   }
 
   formatByDefaultOrder(dateString) {
-    const dateParsed = parseISO(dateString);
+    const dateParsed = this.parseDate(dateString);
     return formatISO(dateParsed, { format: "extended" });
   }
   formatByCustomOrder(dateString, formatString) {
-    const dateParsed = parseISO(dateString);
+    const dateParsed = this.parseDate(dateString);
     return format(dateParsed, formatString);
   }
 
@@ -32,39 +33,45 @@ class DateFnsService extends DateServiceInterface {
   }
 
   datesDifferenceByHours({ pastDate, futureDate }) {
-    const pastDateParsed = parseISO(pastDate);
-    const futureDateParsed = parseISO(futureDate);
+    const pastDateParsed = this.parseDate(pastDate);
+    const futureDateParsed = this.parseDate(futureDate);
     return Math.abs(differenceInHours(pastDateParsed, futureDateParsed));
   }
 
   addDaysToDate({ days, dateString }) {
-    const dateParsed = parseISO(dateString);
+    const dateParsed = this.parseDate(dateString);
     const sevenDaysLaterDate = addDays(dateParsed, days);
     return formatISO(sevenDaysLaterDate, { format: "extended" });
   }
 
+  addHoursToDate({ hours, dateString }) {
+    const dateParsed = this.parseDate(dateString);
+    const sevenDaysLaterDate = addHours(dateParsed, hours);
+    return formatISO(sevenDaysLaterDate, { format: "extended" });
+  }
+
   getStartOfWeekSinceDate(timestamp) {
-    const dateParsed = parseISO(timestamp);
+    const dateParsed = this.parseDate(timestamp);
     const sevenDaysBeforeDate = subDays(dateParsed, 7);
     return formatISO(sevenDaysBeforeDate, { format: "extended" });
   }
 
   isDateBefore({ pastTimestamp, futureTimestamp }) {
-    const pastDateObject = parseISO(pastTimestamp);
-    const futureDateObject = parseISO(futureTimestamp);
+    const pastDateObject = this.parseDate(pastTimestamp);
+    const futureDateObject = this.parseDate(futureTimestamp);
     return isBefore(pastDateObject, futureDateObject);
   }
 
   getHoursFromTimestamp(timestamp) {
-    const dateParsed = parseISO(timestamp);
+    const dateParsed = this.parseDate(timestamp);
     return format(dateParsed, "HH");
   }
   getDateFromTimestamp(timestamp) {
-    const dateParsed = parseISO(timestamp);
+    const dateParsed = this.parseDate(timestamp);
     return format(dateParsed, "yyyy-MM-dd");
   }
   getTimeFromTimestamp(timestamp) {
-    const dateParsed = parseISO(timestamp);
+    const dateParsed = this.parseDate(timestamp);
     return format(dateParsed, "HH:mm:ss");
   }
 
@@ -86,6 +93,16 @@ class DateFnsService extends DateServiceInterface {
     } else {
       return this.dateFormatDefault;
     }
+  }
+
+  parseDate(timestamp) {
+    let dateParsed;
+    if (isValid(timestamp)) {
+      dateParsed = timestamp;
+    } else {
+      dateParsed = parseISO(timestamp);
+    }
+    return dateParsed;
   }
 }
 
