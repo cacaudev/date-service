@@ -89,4 +89,15 @@ describe("Date Service", () => {
     expect(dateISO8601).toBeTruthy();
     done();
   });
+
+  it("Should adapt format string to be valid by date-fns", (done) => {
+    const { sut } = makeSut();
+    const formatValid = "dd/MM/yyyy";
+    const formatInvalid = "DD/mm/YYYY";
+
+    const formatAdapted = sut.processAndAdaptFormat(formatInvalid);
+    expect(formatAdapted).toBe(formatValid);
+    expect(formatAdapted.length).toBe(10);
+    done();
+  });
 });

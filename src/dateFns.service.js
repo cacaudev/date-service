@@ -13,6 +13,14 @@ import {
 class DateFnsService extends DateServiceInterface {
   constructor() {
     super();
+    this.timezoneDefault = "America/Sao_Paulo";
+    this.localeDefault = "PT";
+    this.countryDefault = "BR";
+    this.dateFormatDefault = "dd/MM/yyyy";
+  }
+
+  getDefaultDateFormat() {
+    return this.dateFormatDefault;
   }
 
   formatByDefaultOrder(dateString) {
@@ -103,6 +111,57 @@ class DateFnsService extends DateServiceInterface {
       dateParsed = parseISO(timestamp);
     }
     return dateParsed;
+  }
+
+  processAndAdaptFormat(formatString) {
+    const isFormatValid = (format) => format !== null && format !== undefined;
+    const isPeriodTheLast = (index, totalSize) => {
+      const lastPeriod = index + 1;
+      return lastPeriod == totalSize;
+    };
+
+    if (!isFormatValid(formatString)) {
+      throw new Error("Unable to adapt format. Format string is null or undefined");
+    }
+
+    let formatSeparator;
+    if (formatString.includes("/", 0)) {
+      formatSeparator = "/";
+    } else if (formatString.includes("-", 0)) {
+      formatSeparator = "-";
+    }
+    let dateCharsSeparated = formatString.split(formatSeparator);
+    let dateFormatAdapted = "";
+
+    for (let i = 0; i < dateCharsSeparated.length; i++) {
+      const period = dateCharsSeparated[i];
+      switch (period) {
+        case "DD":
+          dateFormatAdapted += "dd";
+          break;
+        case "dd":
+          dateFormatAdapted += "dd";
+          break;
+        case "YYYY":
+          dateFormatAdapted += "yyyy";
+          break;
+        case "yyyy":
+          dateFormatAdapted += "yyyy";
+          break;
+        case "MM":
+          dateFormatAdapted += "MM";
+          break;
+        case "mm":
+          dateFormatAdapted += "MM";
+          break;
+      }
+
+      if (!isPeriodTheLast(i, dateCharsSeparated.length)) {
+        dateFormatAdapted += formatSeparator;
+      }
+    }
+
+    return dateFormatAdapted;
   }
 }
 
